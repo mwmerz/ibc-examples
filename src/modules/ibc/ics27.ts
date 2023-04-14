@@ -16,7 +16,6 @@ export class ICS27 {
 
   async transferTokens(recipientAddress: string, amount: number) {
     // Implementation for performing transfers of ICS20 tokens
-    console.log(recipientAddress, amount, this.lcdClient);
-    return "Success message";
+    return `Success message ${recipientAddress}, ${amount}, ${this.lcdClient}`;
   }
 }
