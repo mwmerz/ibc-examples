@@ -1,11 +1,11 @@
-import { LCDClient } from "@terra-money/feather.js";
+import { MsgDelegate, Msg, Coin, LCDClient } from "@terra-money/feather.js";
 
-/**
- * ICS27 - Token Transfer / Interchain Accounts
- *
- * ICS27 defines the interface for interchain token transfers.
- * Below are example use cases for ICS27.
- */
+// Define the MsgExecute structure
+export interface MsgExecute {
+  sender: string;
+  interchainAccount: string;
+  msgs: Msg[];
+}
 
 export class ICS27 {
   private lcdClient: LCDClient;
@@ -17,5 +17,44 @@ export class ICS27 {
   async transferTokens(recipientAddress: string, amount: number) {
     // Implementation for performing transfers of ICS20 tokens
     return `Success message ${recipientAddress}, ${amount}, ${this.lcdClient}`;
+  }
+
+  // Function to create MsgExecute
+  createMsgExecute(
+    sender: string,
+    interchainAccount: string,
+    msgs: Msg[]
+  ): MsgExecute {
+    return {
+      sender,
+      interchainAccount,
+      msgs,
+    };
+  }
+
+  // Function to encode MsgExecute
+  encodeMsgExecute() {
+    // Encoding logic for MsgExecute
+  }
+
+  // Function to decode MsgExecute
+  decodeMsgExecute() {
+    // Decoding logic for MsgExecute
+  }
+
+  createInterchainDelegationMessage(
+    sender: string,
+    interchainAccount: string,
+    validatorAddress: string,
+    amount: number,
+    denom: string
+  ): MsgExecute {
+    const msgDelegate = new MsgDelegate(
+      interchainAccount,
+      validatorAddress,
+      new Coin(amount.toString(), denom)
+    );
+
+    return this.createMsgExecute(sender, interchainAccount, [msgDelegate]);
   }
 }
