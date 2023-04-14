@@ -26,6 +26,8 @@ describe("ICS20", () => {
     const mockBlockHeight = "123456";
 
     // Mock the lcdClient.tendermint.blockInfo() method to return a mocked block height
+    if (!lcdClient || !lcdClient.tendermint) return;
+
     lcdClient.tendermint.blockInfo = jest.fn().mockResolvedValue({
       block: {
         header: {
