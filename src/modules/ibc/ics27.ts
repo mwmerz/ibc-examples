@@ -12,11 +12,13 @@ export class ICS27 {
 
   constructor(lcdClient: LCDClient) {
     this.lcdClient = lcdClient;
+    console.log(this.lcdClient);
   }
 
   async transferTokens(recipientAddress: string, amount: number) {
     // Implementation for performing transfers of ICS20 tokens
-    return `Success message ${recipientAddress}, ${amount}, ${this.lcdClient}`;
+    console.log(`${recipientAddress} ${amount}`);
+    return amount;
   }
 
   // Function to create MsgExecute
@@ -52,7 +54,7 @@ export class ICS27 {
     const msgDelegate = new MsgDelegate(
       interchainAccount,
       validatorAddress,
-      new Coin(amount.toString(), denom)
+      new Coin(denom, amount.toString())
     );
 
     return this.createMsgExecute(sender, interchainAccount, [msgDelegate]);

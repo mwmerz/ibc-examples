@@ -20,9 +20,7 @@ describe("ICS-27 Interchain Accounts", () => {
 
     const result = await ics27.transferTokens(recipientAddress, amount);
 
-    expect(result).toContain(recipientAddress);
-    expect(result).toContain(amount);
-    expect(result).toContain(lcdClientMock);
+    expect(result).toBe(amount);
   });
 
   it("creates a MsgExecute", () => {
@@ -30,7 +28,7 @@ describe("ICS-27 Interchain Accounts", () => {
     const sender = "terra1...";
     const interchainAccount = "osmo...";
     const msgs: Msg[] = [
-      new MsgDelegate("osmo...", "osmovaloper1...", new Coin("1000", "uosmo")),
+      new MsgDelegate("osmo...", "osmovaloper1...", new Coin("uosmo", "1000")),
     ];
 
     const msgExecute: MsgExecute = ics27.createMsgExecute(
@@ -67,7 +65,7 @@ describe("ICS-27 Interchain Accounts", () => {
     const msgDelegate: MsgDelegate = msgExecute.msgs[0] as MsgDelegate;
     expect(msgDelegate.delegator_address).toBe(interchainAccount);
     expect(msgDelegate.validator_address).toBe(validatorAddress);
-    expect(msgDelegate.amount).toEqual(new Coin(amount.toString(), denom));
+    expect(msgDelegate.amount).toEqual(new Coin(denom, amount.toString()));
   });
 
   // Add tests for encodeMsgExecute and decodeMsgExecute when their implementations are ready
